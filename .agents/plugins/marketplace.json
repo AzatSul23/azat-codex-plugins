@@ -1,0 +1,20 @@
+{
+  "name": "azat",
+  "interface": {
+    "displayName": "Azat Codex Plugins"
+  },
+  "plugins": [
+    {
+      "name": "codex-cli-auto-title",
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex-cli-auto-title"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

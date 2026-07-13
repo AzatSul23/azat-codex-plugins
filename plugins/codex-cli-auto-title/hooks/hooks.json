@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/auto_title.py\"",
+            "commandWindows": "py -3 \"${CLAUDE_PLUGIN_ROOT}\\scripts\\auto_title.py\"",
+            "timeout": 90
+          }
+        ]
+      }
+    ]
+  }
+}

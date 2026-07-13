@@ -1,0 +1,32 @@
+{
+  "name": "codex-cli-auto-title",
+  "version": "0.1.0",
+  "description": "Automatically title unnamed Codex CLI threads after their first response.",
+  "author": {
+    "name": "AzatSul23",
+    "url": "https://github.com/AzatSul23"
+  },
+  "homepage": "https://github.com/AzatSul23/azat-codex-plugins#readme",
+  "repository": "https://github.com/AzatSul23/azat-codex-plugins",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "cli",
+    "thread-title",
+    "productivity"
+  ],
+  "interface": {
+    "displayName": "Codex CLI Auto Title",
+    "shortDescription": "Name new CLI threads after their first response.",
+    "longDescription": "Creates a concise title for an unnamed Codex CLI thread after its first completed response.",
+    "developerName": "AzatSul23",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Start a new Codex CLI thread with automatic naming."
+    ]
+  }
+}
