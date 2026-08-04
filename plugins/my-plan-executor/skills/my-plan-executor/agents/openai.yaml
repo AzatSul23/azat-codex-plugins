@@ -1,0 +1,6 @@
+interface:
+  display_name: "My Plan Executor"
+  short_description: "Execute approved plan files"
+  default_prompt: "Use $my-plan-executor to implement docs/superpowers/plans/example.md with the default subagent-driven separate-worktree flow."
+policy:
+  allow_implicit_invocation: false

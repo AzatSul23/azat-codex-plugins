@@ -1,6 +1,28 @@
 # Azat Codex Plugins
 
-Public marketplace `azat` for small Codex plugins with no third-party runtime dependencies.
+Public marketplace `azat` for small Codex plugins.
+
+## Plugins
+
+| Plugin | Purpose |
+| --- | --- |
+| `codex-cli-auto-title` | Name a new Codex CLI thread after its first response. |
+| `my-plan-executor` | Execute an approved implementation plan with repository-native safeguards. |
+
+## Install
+
+Add the marketplace once:
+
+```bash
+codex plugin marketplace add AzatSul23/azat-codex-plugins --ref main
+```
+
+Then install either plugin:
+
+```bash
+codex plugin add codex-cli-auto-title@azat
+codex plugin add my-plan-executor@azat
+```
 
 ## Codex CLI Auto Title
 
@@ -14,7 +36,7 @@ The hook only generates a title when the stored thread:
 
 Named, multi-prompt, empty, and image-only threads are left unchanged. A failure shows a short warning, never includes prompt text, and never blocks the original conversation.
 
-## Requirements
+### Requirements
 
 - Codex CLI 0.144.1 or newer
 - Python 3.9 or newer available as `python3` on macOS/Linux or through `py -3` on Windows
@@ -22,18 +44,11 @@ Named, multi-prompt, empty, and image-only threads are left unchanged. A failure
 
 Version 0.1.0 is verified on macOS. Linux and Windows support is best-effort until tested on those platforms.
 
-## Install
-
-```bash
-codex plugin marketplace add AzatSul23/azat-codex-plugins --ref main
-codex plugin add codex-cli-auto-title@azat
-```
-
 Start a new Codex CLI thread, open `/hooks`, and review and trust the plugin hook. Codex intentionally skips newly installed or changed non-managed hooks until their exact definition is trusted.
 
 The title appears after the first response completes, not when the prompt is submitted. The title-generation subprocess can take up to 60 seconds.
 
-## Update
+### Update
 
 ```bash
 codex plugin marketplace upgrade azat
@@ -42,7 +57,7 @@ codex plugin add codex-cli-auto-title@azat
 
 Review `/hooks` again if Codex reports that the updated hook definition needs trust, then test in a new thread.
 
-## Remove
+### Remove
 
 ```bash
 codex plugin remove codex-cli-auto-title@azat
@@ -54,7 +69,7 @@ To remove the marketplace too:
 codex plugin marketplace remove azat
 ```
 
-## How it works
+### How it works
 
 The hook reads the completed thread through the read-only `thread/read` app-server method. For one eligible text prompt it runs:
 
@@ -68,7 +83,7 @@ The nested process receives `CODEX_AUTO_TITLE_CHILD=1` to prevent recursive titl
 
 The plugin does not require npm, `npx`, PyPI packages, third-party Python modules, direct SQLite writes, or edits to Codex session index files.
 
-## Troubleshooting
+### Troubleshooting
 
 If a title stays as a UUID:
 
@@ -79,6 +94,22 @@ If a title stays as a UUID:
 5. Confirm the signed-in Codex account has allowance available for the extra ephemeral title-generation run.
 
 For vetted non-interactive automation only, Codex provides `--dangerously-bypass-hook-trust`; normal interactive use should review the hook in `/hooks` instead.
+
+## My Plan Executor
+
+`my-plan-executor` runs an explicitly invoked saved implementation plan. It
+reads repository instructions plus the paired spec, keeps implementation and
+workspace choices independent, and defaults to subagent-driven execution in a
+separate worktree.
+
+Invoke it with a saved plan:
+
+```text
+$my-plan-executor docs/superpowers/plans/example.md
+```
+
+The skill is explicit-only: installing it does not make Codex execute plans
+implicitly.
 
 ## Development
 
@@ -91,8 +122,10 @@ python3 -m unittest discover -s plugins/codex-cli-auto-title/tests -v
 Validate the package and JSON files:
 
 ```bash
-python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" \
+uv run --with pyyaml python "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" \
   plugins/codex-cli-auto-title
+uv run --with pyyaml python "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" \
+  plugins/my-plan-executor
 python3 -m json.tool .agents/plugins/marketplace.json >/dev/null
 python3 -m json.tool plugins/codex-cli-auto-title/hooks/hooks.json >/dev/null
 ```
