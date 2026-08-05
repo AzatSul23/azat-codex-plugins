@@ -1,13 +1,13 @@
 # Azat Codex Plugins
 
-Public marketplace `azat` for small Codex plugins.
+Small Codex plugins and standalone skills.
 
-## Plugins
+## Extensions
 
-| Plugin | Purpose |
-| --- | --- |
-| `codex-cli-auto-title` | Name a new Codex CLI thread after its first response. |
-| `my-plan-executor` | Execute an approved implementation plan with repository-native safeguards. |
+| Extension | Type | Purpose |
+| --- | --- | --- |
+| `codex-cli-auto-title` | Plugin | Name a new Codex CLI thread after its first response. |
+| `my-plan-executor` | Skill | Execute an approved implementation plan with repository-native safeguards. |
 
 ## Install
 
@@ -17,11 +17,20 @@ Add the marketplace once:
 codex plugin marketplace add AzatSul23/azat-codex-plugins --ref main
 ```
 
-Then install either plugin:
+Install the hook-based plugin:
 
 ```bash
 codex plugin add codex-cli-auto-title@azat
-codex plugin add my-plan-executor@azat
+```
+
+Install the standalone skill globally for Codex:
+
+```bash
+npx skills add AzatSul23/azat-codex-plugins \
+  --skill my-plan-executor \
+  --agent codex \
+  --global \
+  --yes
 ```
 
 ## Codex CLI Auto Title
@@ -111,6 +120,18 @@ $my-plan-executor docs/superpowers/plans/example.md
 The skill is explicit-only: installing it does not make Codex execute plans
 implicitly.
 
+### Update
+
+```bash
+npx skills update my-plan-executor --global
+```
+
+### Remove
+
+```bash
+npx skills remove my-plan-executor --agent codex --global --yes
+```
+
 ## Development
 
 Run the standard-library test suite:
@@ -124,8 +145,8 @@ Validate the package and JSON files:
 ```bash
 uv run --with pyyaml python "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" \
   plugins/codex-cli-auto-title
-uv run --with pyyaml python "${CODEX_HOME:-$HOME/.codex}/skills/.system/plugin-creator/scripts/validate_plugin.py" \
-  plugins/my-plan-executor
+uv run --with pyyaml python "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" \
+  skills/my-plan-executor
 python3 -m json.tool .agents/plugins/marketplace.json >/dev/null
 python3 -m json.tool plugins/codex-cli-auto-title/hooks/hooks.json >/dev/null
 ```
